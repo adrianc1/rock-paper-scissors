@@ -1,6 +1,7 @@
 let computerScore = 0;
 let humanScore = 0;
 let total = computerScore + humanScore;
+const btns = document.querySelectorAll('.btn');
 
 function getComputerChoice() {
 	const randomNumber = Math.floor(Math.random() * 3);
@@ -21,13 +22,10 @@ function getComputerChoice() {
 	return computerChoice;
 }
 
-function getHumanChoice() {
-	const humanChoice = prompt(
-		'select a goddam rock, paper or scissors'
-	).toUpperCase();
-
-	return humanChoice;
-}
+// function getHumanChoice() {
+// 	let humanChoice = null;
+// 	return humanChoice;
+// }
 
 function playRound(human, computer) {
 	console.log(human, computer);
@@ -49,10 +47,26 @@ function playRound(human, computer) {
 	);
 }
 
-while (total < 5) {
-	const computerSelection = getComputerChoice();
-	const humanSelection = getHumanChoice();
+function updatingUI(humanChoice, computerSelection) {
+	const TotalNumberOfGamesDiv = document.querySelector('.game-counter');
+	const currentPlayerScoreDiv = document.querySelector('.player-score');
+	const currentComputerScoreDiv = document.querySelector('.computer-score');
+	const humanChoiceDiv = document.querySelector('.player-choice');
+	const computerChoiceDiv = document.querySelector('.computer-choice');
 
-	playRound(humanSelection, computerSelection);
-	total = computerScore + humanScore;
+	TotalNumberOfGamesDiv.textContent = total;
+	currentPlayerScoreDiv.textContent = humanScore;
+	currentComputerScoreDiv.textContent = computerScore;
+	humanChoiceDiv.textContent = humanChoice;
+	computerChoiceDiv.textContent = computerSelection;
 }
+
+btns.forEach((btn) => {
+	btn.addEventListener('click', () => {
+		const computerSelection = getComputerChoice();
+		console.log(btn.innerHTML);
+		let humanChoice = btn.innerHTML.toUpperCase();
+		playRound(humanChoice, computerSelection);
+		updatingUI(humanChoice, computerSelection);
+	});
+});
